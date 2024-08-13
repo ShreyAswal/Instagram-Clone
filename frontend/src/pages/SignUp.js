@@ -51,9 +51,9 @@ export default function SignUp() {
               </button>
             </form>
             <div className="flex items-center my-4 w-full">
-              <div className="flex-grow border-t border-grey-300"></div>
-              <span className="px-4 text-grey-">OR</span>
-              <div className="flex-grow border-t border-grey-300"></div>
+              <div className="flex-grow border-t border-gray-300"></div>
+              <span className="px-4 text-gray-">OR</span>
+              <div className="flex-grow border-t border-gray-300"></div>
             </div>
             <button>Continue with google</button>
             <div>
