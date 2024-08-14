@@ -1,9 +1,54 @@
-import React from 'react';
+import React, { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+const API_URL = window.location.origin.replace("3000", "5000");
 
 export default function SignUp() {
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    signup();
+  };
+
+  const signup = async () => {
+    console.log("Sign up function called");
+    try {
+      const response = await fetch(`${API_URL}/api/users/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: userName,
+          fullname: fullName,
+          email: email,
+          password: password,
+        }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        toast.success(data.message);
+        setFullName("");
+        setEmail("");
+        setUserName("");
+        setPassword("");
+        console.log(data);
+      } else {
+        toast.error(data.error);
+      }
+    } catch (error) {
+      toast.error(error);
+    }
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen">
       {/* Main container */}
+      <ToastContainer />
       <div className="flex w-full max-w-4xl rounded-lg overflow-hidden justify-center">
         {/* Signup form container */}
         <div className="w-full md:w-1/2 p-8 md:border-gray-300 md:rounded-lg">
@@ -18,29 +63,49 @@ export default function SignUp() {
               and videos!🙂
             </p>
 
-            <form className="space-y-4 w-full">
+            <form className="space-y-4 w-full" onSubmit={handleSubmit}>
               <input
                 className="block w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring focus:ring-gray-100 text-base"
                 type="text"
                 placeholder="Full Name"
+                value={fullName}
+                onChange={(e) => {
+                  setFullName(e.target.value);
+                }}
+                required
               ></input>
               <input
                 className="block w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring focus:ring-gray-100 text-base"
                 type="text"
                 placeholder="Email"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+                required
               ></input>
               <input
                 className="block w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring focus:ring-gray-100 text-base"
                 type="text"
                 placeholder="Username"
+                value={userName}
+                onChange={(e) => {
+                  setUserName(e.target.value);
+                }}
+                required
               ></input>
               <input
                 className="block w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring focus:ring-gray-100 text-base"
                 type="text"
-                placeholder="Username"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
+                required
               ></input>
               <p className="text-gray-500 text-sm text-center my-5">
-                By signing up you agree to our <a href="/terms">Terms</a> and{' '}
+                By signing up you agree to our <a href="/terms">Terms</a> and{" "}
                 <a href="/privacy">Privacy conditions</a>
               </p>
               <button
