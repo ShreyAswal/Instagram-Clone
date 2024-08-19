@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const API_URL = window.location.origin.replace("3000", "5000");
 
 export default function SignUp() {
@@ -8,6 +10,8 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -53,6 +57,7 @@ export default function SignUp() {
         setUserName("");
         setPassword("");
         console.log(data);
+        navigate("/signin");
       } else {
         toast.error(data.error);
       }
@@ -139,7 +144,7 @@ export default function SignUp() {
             <button>Continue with google</button>
             <div>
               <p>
-                Have an account?<a href="">Log In</a>
+                Have an account? <Link to={"/signin"}>Log In</Link>
               </p>
             </div>
           </div>
