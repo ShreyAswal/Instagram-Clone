@@ -20,6 +20,7 @@ const AppLayout = () => {
           {/* Top navbar */}
           <TopNav />
         </div>
+        
         <Outlet />
       </div>
     </div>

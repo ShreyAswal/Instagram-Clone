@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   FaHome,
@@ -7,8 +7,18 @@ import {
   FaUserPlus,
   FaPlusSquare,
 } from "react-icons/fa";
+import CreatePost from "../../CreatePost/CreatePost";
 
 const LargeNav = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
   const SidebarItems = [
     {
       name: "Search",
@@ -26,11 +36,6 @@ const LargeNav = () => {
       icon: <FaUserPlus className="text-2xl" />,
     },
     {
-      name: "Create Post",
-      link: "/create",
-      icon: <FaPlusSquare className="text-2xl" />,
-    },
-    {
       name: "Profile",
       link: "/profile",
       icon: (
@@ -43,37 +48,51 @@ const LargeNav = () => {
     },
   ];
   return (
-    <div className="w-full h-full relative">
-      <Link to="/" className="mb-10 px-4 lg:block sm:hidden md:hidden hidden">
-        <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXkbGJWJSc6kNJTguH7SRIRcL_tCYcWpaZhw&s"
-          alt="Instagram logo"
-          className="w-28 h-auto"
-        ></img>
-      </Link>
-      <div className="w-full h-auto flex items-center flex-col gap-y-2">
-        <Link
-          to="/"
-          className="w-full h-auto flex items-center gap-x-4 p-3 bg-transparent hover:bg-gray-300 rounded-md ease-out duration-500 group"
-        >
-          <FaHome className="text-2xl"/>
-          <p className="text-lg lg:block md:hidden sm:hidden hidden">Home</p>
+    <>
+      <div className="w-full h-full relative">
+        <Link to="/" className="mb-10 px-4 lg:block sm:hidden md:hidden hidden">
+          <img
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXkbGJWJSc6kNJTguH7SRIRcL_tCYcWpaZhw&s"
+            alt="Instagram logo"
+            className="w-28 h-auto"
+          ></img>
         </Link>
-        {SidebarItems.map((item) => (
+        <div className="w-full h-auto flex items-center flex-col gap-y-2">
           <Link
-            to={item.link}
-            key={item.name}
+            to="/"
             className="w-full h-auto flex items-center gap-x-4 p-3 bg-transparent hover:bg-gray-300 rounded-md ease-out duration-500 group"
           >
-            {item.icon}
-
-            <p className="text-lg lg:block md:hidden sm:hidden hidden">
-              {item.name}
-            </p>
+            <FaHome className="text-2xl" />
+            <p className="text-lg lg:block md:hidden sm:hidden hidden">Home</p>
           </Link>
-        ))}
+
+          <div
+            className="w-full h-auto flex items-center gap-x-4 p-3 bg-transparent hover:bg-gray-300 rounded-md ease-out duration-500 group cursor-pointer"
+            onClick={openModal}
+          >
+            <FaPlusSquare className="text-2xl" />
+            <p className="text-lg lg:block md:hidden sm:hidden hidden">
+              Create Post
+            </p>
+          </div>
+
+          {SidebarItems.map((item) => (
+            <Link
+              to={item.link}
+              key={item.name}
+              className="w-full h-auto flex items-center gap-x-4 p-3 bg-transparent hover:bg-gray-300 rounded-md ease-out duration-500 group"
+            >
+              {item.icon}
+
+              <p className="text-lg lg:block md:hidden sm:hidden hidden">
+                {item.name}
+              </p>
+            </Link>
+          ))}
+        </div>
       </div>
-    </div>
+      {isModalOpen && <CreatePost closeModal={closeModal} />}
+    </>
   );
 };
 
